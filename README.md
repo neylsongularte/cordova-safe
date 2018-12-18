@@ -31,7 +31,7 @@ function error() {
   console.log('Error with cryptographic operation');
 }
 
-safe.encrypt('file:/storage/sdcard/DCIM/Camera/1404177327783.jpg', key, success, error);
+safe.encrypt('file:/storage/sdcard/DCIM/Camera/1404177327783.jpg', 'file:/storage/sdcard/DCIM/Camera/1404177327783.jpg.enc',key,iv, success, error);
 ```
 
 ## API
