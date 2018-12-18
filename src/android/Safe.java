@@ -47,11 +47,11 @@ public class Safe extends CordovaPlugin {
 
       // Uri normalizedPath = resourceApi.remapUri(Uri.parse(path));
       // Uri normalizedDstPath = resourceApi.remapUri(Uri.parse(dst_path));
-	  
-      SecretKey skey = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
       // this.cryptOp(normalizedPath.toString(), pass, action, callbackContext);
 
       try {
+        SecretKey skey = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
         byte[] biv = iv.getBytes("UTF-8");
 
         if (action.equals(ENCRYPT_ACTION)) {
