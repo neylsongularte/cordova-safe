@@ -26,7 +26,7 @@ var safe = {
     encryptSuccess = onSuccess.bind(null, success);
     encryptError = onError.bind(null, error);
 
-    exec(encryptSuccess, encryptError, 'Safe', 'encrypt', [path, password]);
+    exec(encryptSuccess, encryptError, 'Safe', 'encrypt', [path, dst_path, key, iv]);
   },
 
   /**
@@ -46,7 +46,7 @@ var safe = {
     decryptSuccess = onSuccess.bind(null, success);
     decryptError = onError.bind(null, error);
 
-    exec(decryptSuccess, decryptError, 'Safe', 'decrypt', [path, password]);
+    exec(decryptSuccess, decryptError, 'Safe', 'decrypt', [path, dst_path, key, iv]);
   }
 
 };
