@@ -8,20 +8,21 @@ cordova-safe
 ## Install
 
 ```bash
-$ cordova plugin add cordova-safe
+$ cordova plugin add https://github.com/tsaokuoyang/cordova-safe
 ```
 
 ## Usage
 
 ```javascript
 var safe = cordova.plugins.disusered.safe,
-    key = 'someKey';
+    key = 'someKey',
+    iv  = 'someIv';
 
 
 function success(encryptedFile) {
   console.log('Encrypted file: ' + encryptedFile);
 
-  safe.decrypt(encryptedFile, key, function(decryptedFile) {
+  safe.decrypt(encryptedFile, dstFile, key, iv, function(decryptedFile) {
     console.log('Decrypted file: ' + decryptedFile);
   }, error);
 }
@@ -38,13 +39,15 @@ safe.encrypt('file:/storage/sdcard/DCIM/Camera/1404177327783.jpg', key, success,
 The plugin exposes the following methods:
 
 ```javascript
-cordova.plugins.disusered.safe.encrypt(file, key, success, error);
-cordova.plugins.disusered.safe.decrypt(file, key, success, error);
+cordova.plugins.disusered.safe.encrypt(file, dst_file, key, iv, success, error);
+cordova.plugins.disusered.safe.decrypt(file, dst_file, key, iv, success, error);
 ```
 
 #### Parameters:
 * __file:__ A string representing a local URI
+* __dst_file:__ A string representing a local URI ( destination file )
 * __key:__ A key for the crypto operations
+* __iv:__  A iv for the crypto operations
 * __success:__ Optional success callback
 * __error:__ Optional error callback
 
