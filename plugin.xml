@@ -4,8 +4,8 @@
   <description>Simple file crypto for Cordova.</description>
   <license>MIT</license>
   <keywords>cordova,file,encrypt,decrypt</keywords>
-  <repo>https://github.com/disusered/cordova-safe</repo>
-  <issue>https://github.com/disusered/cordova-safe/issues</issue>
+  <repo>https://github.com/tsaokuoyang/cordova-safe</repo>
+  <issue>https://github.com/tsaokuoyang/cordova-safe/issues</issue>
   <engines>
     <engine name="cordova-android" version=">=4" />
     <engine name="cordova-plugman" version=">=4.2.0" /><!-- needed for gradleReference support -->
