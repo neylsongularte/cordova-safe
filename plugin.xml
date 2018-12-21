@@ -14,7 +14,6 @@
     <merges target="cordova.plugins.disusered"/>
   </js-module>
   <platform name="android">
-    <framework src="src/android/conceal.gradle" custom="true" type="gradleReference" />
     <source-file src="src/android/Safe.java" target-dir="src/com/disusered"/>
     <config-file target="res/xml/config.xml" parent="/*" >
       <feature name="Safe">
