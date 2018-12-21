@@ -18,7 +18,7 @@ var safe = {
    * @param {Function} error Failure callback
    * @returns {void}
    */
-  encrypt: function(path, password, success, error) {
+  encrypt: function(path, dst_path, key, iv, success, error) {
     var encryptSuccess, encryptError;
 
     if (!path || arguments.length === 0) return;
@@ -38,7 +38,7 @@ var safe = {
    * @param {Function} error Failure callback
    * @returns {void}
    */
-  decrypt: function(path, password, success, error) {
+  decrypt: function(path, dst_path, key, iv, success, error) {
     var decryptSuccess, decryptError;
 
     if (!path || arguments.length === 0) return;
