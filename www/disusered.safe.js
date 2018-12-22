@@ -25,8 +25,10 @@ var safe = {
 
     encryptSuccess = onSuccess.bind(null, success);
     encryptError = onError.bind(null, error);
+    path1 = removeFileProtocol( path );
+    dst_path1 = removeFileProtocol( dts_path );
 
-    exec(encryptSuccess, encryptError, 'Safe', 'encrypt', [path, dst_path, key, iv]);
+    exec(encryptSuccess, encryptError, 'Safe', 'encrypt', [path1, dst_path1, key, iv]);
   },
 
   /**
@@ -45,11 +47,18 @@ var safe = {
 
     decryptSuccess = onSuccess.bind(null, success);
     decryptError = onError.bind(null, error);
+    path1 = removeFileProtocol( path );
+    dst_path1 = removeFileProtocol( dts_path );
 
-    exec(decryptSuccess, decryptError, 'Safe', 'decrypt', [path, dst_path, key, iv]);
+    exec(decryptSuccess, decryptError, 'Safe', 'decrypt', [path1, dst_path1, key, iv]);
   }
 
 };
+
+function removeFileProtocol(url) {
+  return url.replace(/(^\w+:|^)\/\//, '');
+}
+
 
 /**
  * onSuccess
