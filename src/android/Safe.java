@@ -56,8 +56,11 @@ public class Safe extends CordovaPlugin {
 
         if (action.equals(ENCRYPT_ACTION)) {
           AES_Encryptor.Encrypt( skey, biv, new File( path ), new File( dst_path ));
+		  callbackContext.success(dst_path);
+		
         } else if (action.equals(DECRYPT_ACTION)) {
           AES_Encryptor.Decrypt( skey, biv, new File( path ), new File( dst_path ));
+		  callbackContext.success(dst_path);
 		}
 	  } catch (IOException e) {
 		  LOG.d(TAG, "initCrypto IOException: " + e.getMessage());

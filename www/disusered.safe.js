@@ -23,12 +23,16 @@ var safe = {
 
     if (!path || arguments.length === 0) return;
 
-    encryptSuccess = onSuccess.bind(null, success);
-    encryptError = onError.bind(null, error);
+    // encryptSuccess = onSuccess.bind(null, success);
+    // encryptError = onError.bind(null, error);
     path1 = removeFileProtocol( path );
     dst_path1 = removeFileProtocol( dst_path );
+	
 
-    exec(encryptSuccess, encryptError, 'Safe', 'encrypt', [path1, dst_path1, key, iv]);
+    // exec(encryptSuccess, encryptError, 'Safe', 'encrypt', [path1, dst_path1, key, iv]);
+    exec(function( path ) { success( { result:true, file:path } ); }, 
+		 function( reason ) { error( { result:true, message:reason } ); },
+		 'Safe', 'encrypt', [path1, dst_path1, key, iv]);
   },
 
   /**
@@ -45,12 +49,15 @@ var safe = {
 
     if (!path || arguments.length === 0) return;
 
-    decryptSuccess = onSuccess.bind(null, success);
-    decryptError = onError.bind(null, error);
+    // decryptSuccess = onSuccess.bind(null, success);
+    // decryptError = onError.bind(null, error);
     path1 = removeFileProtocol( path );
     dst_path1 = removeFileProtocol( dst_path );
 
-    exec(decryptSuccess, decryptError, 'Safe', 'decrypt', [path1, dst_path1, key, iv]);
+    // exec(decryptSuccess, decryptError, 'Safe', 'decrypt', [path1, dst_path1, key, iv]);
+    exec(function( path ) { success( { result:true, file:path } ); }, 
+		 function( reason ) { error( { result:true, message:reason } ); },
+		 'Safe', 'decrypt', [path1, dst_path1, key, iv]);
   }
 
 };
