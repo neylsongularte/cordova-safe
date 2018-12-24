@@ -1,5 +1,7 @@
 package com.disusered;
 
+import org.apache.cordova.LOG;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,29 +15,65 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+// http://ijecorp.blogspot.com/2016/05/java-jce-aes-encryption-decryption-2016.html
+
 class AES_Encryptor {
+ private static final String TAG = "AES_Encryptor";
  private static final int BLOCK_SIZE = 16;
+ // private static String CIPHER_TYPE = "AES/CBC/PKCS5PADDING"; // = AES128 // https://docs.oracle.com/javase/7/docs/api/javax/crypto/Cipher.html
+ // private static String CIPHER_TYPE = "AES/CBC/NOPADDING"; // = AES128 // https://docs.oracle.com/javase/7/docs/api/javax/crypto/Cipher.html
+    private static String CIPHER_TYPE = "AES/CTR/NOPADDING"; // = AES128 // https://docs.oracle.com/javase/7/docs/api/javax/crypto/Cipher.html
 
  public static void Encrypt(SecretKey secretKey, byte[] iv, File plainTextFile, File encryptedFile) throws Exception{
-  Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5PADDING");
+  Cipher cipher = Cipher.getInstance(CIPHER_TYPE);
   cipher.init(Cipher.ENCRYPT_MODE, secretKey, new IvParameterSpec(iv));
   // System.out.println("AES_CTR_PKCS5PADDING IV:"+cipher.getIV());
   // System.out.println("AES_CTR_PKCS5PADDING Algoritm:"+cipher.getAlgorithm());
+     int readSizes = 0, loop=0;
   byte buf[] = new byte[4096];
-  try (InputStream in = new FileInputStream(plainTextFile);
-    OutputStream out = new FileOutputStream(encryptedFile);){
+
+     InputStream in = null;
+     OutputStream out = null;
+
+  try {
+   in = new FileInputStream(plainTextFile);
+   out = new FileOutputStream(encryptedFile);
    int readBytes = in.read(buf);
    while(readBytes > 0){
-    byte[] cipherBytes = cipher.update(buf, 0 , readBytes);
-    out.write(cipherBytes);
+       readSizes += readBytes;
+       loop++;
+
+       int outputSize = cipher.getOutputSize(readBytes);    // https://github.com/martinwithaar/Encryptor4j/blob/master/src/main/java/org/encryptor4j/Encryptor.java
+    // byte[] cipherBytes = cipher.update(buf, 0 , readBytes);
+       byte[] cipherBytes = cipher.doFinal(buf, 0, readBytes);
+       out.write(cipherBytes);
     readBytes = in.read(buf);
+    if( readBytes < 4096 ) {
+        LOG.w(TAG, "outputSize=" + String.valueOf(outputSize) );
+        LOG.w(TAG, "loop=" + String.valueOf(loop) +", readSizes=" + String.valueOf(readSizes)+", this time readBytes"+ String.valueOf(readBytes) );
+    }
    }
-   cipher.doFinal();
+   //   cipher.doFinal();
+   /*
+   byte[] bFinal = cipher.doFinal();
+      LOG.w(TAG, "final length =" + String.valueOf(bFinal.length ) );
+      out.write(bFinal);
+    */
+
+  } catch( Exception e ) {
+      LOG.w(TAG, e.getMessage());
+  } finally {
+      if(in != null) {
+          in.close();
+      }
+      if(out != null) {
+          out.close();
+      }
   }
  }
 
  public static void Decrypt(SecretKey secretKey, byte[] iv, File cipherTextFile, File decryptedFile) throws Exception{
-  Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5PADDING");
+  Cipher cipher = Cipher.getInstance(CIPHER_TYPE);
   cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(iv));
 
   if(!decryptedFile.exists()){
@@ -52,6 +90,8 @@ class AES_Encryptor {
     readBytes = in.read(buf);
    }
    cipher.doFinal();
+   out.close();
+   in.close();
   }
  }
 
@@ -59,7 +99,7 @@ class AES_Encryptor {
   final int offset = blockIndex * BLOCK_SIZE;
   final int bufSize = blockCount * BLOCK_SIZE;
 
-  Cipher cipher = Cipher.getInstance("AES/CTR/PKCS5PADDING");
+  Cipher cipher = Cipher.getInstance(CIPHER_TYPE);
   cipher.init(Cipher.DECRYPT_MODE, secretKey, calculateIVForBlock(new IvParameterSpec(iv), blockIndex ));
 
   byte[] decryptedBytes = new byte[bufSize];
