@@ -1,10 +1,10 @@
-@objc(AES256) class AES256 : CDVPlugin {
+@objc(Safe) class Safe : CDVPlugin {
     
     private static let SECURE_KEY_LENGTH = 16;
     private static let SECURE_IV_LENGTH = 8;
     private static let PBKDF2_ITERATION_COUNT = 1001;
     
-    // Encrypts the plain text using aes256 encryption alogrithm
+    // Encrypts file using aes256 encryption alogrithm
     func encrypt(_ command: CDVInvokedUrlCommand) {
 
         var pluginResult = CDVPluginResult(
