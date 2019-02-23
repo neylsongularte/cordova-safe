@@ -33,18 +33,8 @@
     </config-file>
     <framework src="Foundation.framework" />
     <framework src="Security.framework" />
-    <source-file src="src/ios/Safe.m"/>
-    <header-file src="src/ios/Safe.h"/>
-    <header-file src="src/ios/RNCryptor/RNCryptor+Private.h" />
-    <header-file src="src/ios/RNCryptor/RNCryptor-Prefix.pch" />
-    <header-file src="src/ios/RNCryptor/RNCryptor.h" />
-    <source-file src="src/ios/RNCryptor/RNCryptor.m" />
-    <header-file src="src/ios/RNCryptor/RNCryptorEngine.h" />
-    <source-file src="src/ios/RNCryptor/RNCryptorEngine.m" />
-    <header-file src="src/ios/RNCryptor/RNDecryptor.h" />
-    <source-file src="src/ios/RNCryptor/RNDecryptor.m" />
-    <header-file src="src/ios/RNCryptor/RNEncryptor.h" />
-    <source-file src="src/ios/RNCryptor/RNEncryptor.m" />
+    <source-file src="src/ios/Safe.swift" />
     <source-file src="src/ios/CryptoSwift" />
+    <dependency id="cordova-plugin-add-swift-support" version="1.7.2"/>
   </platform>
 </plugin>
