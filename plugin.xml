@@ -33,6 +33,7 @@
     </config-file>
     <framework src="Foundation.framework" />
     <framework src="Security.framework" />
+    <header-file src="src/ios/Safe-Plugin-Bridging-Header.h" />
     <source-file src="src/ios/Safe.swift" />
     <source-file src="src/ios/CryptoSwift" />
     <dependency id="cordova-plugin-add-swift-support" version="1.7.1"/>
