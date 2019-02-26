@@ -9,19 +9,8 @@
  */
 - (void)encrypt:(CDVInvokedUrlCommand *)command {
 
-  CDVPluginResult *pluginResult = nil;
-
   // NSString *path = [self crypto:@"encrypt" command:command];
-  NSString *to_filePath   = [command.arguments objectAtIndex:1];
-  BOOL bRet = [self crypto:@"encrypt" command:command];
-
-  if (path != nil) {
-    pluginResult =
-        [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                          messageAsString:to_filePath];
-  } else {
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-  }
+  CDVPluginResult *pluginResult = [self crypto:@"encrypt" command:command];
 
   [self.commandDelegate sendPluginResult:pluginResult
                               callbackId:command.callbackId];
@@ -34,19 +23,10 @@
  */
 - (void)decrypt:(CDVInvokedUrlCommand *)command {
 
-  CDVPluginResult *pluginResult = nil;
-
   // NSString *path = [self crypto:@"decrypt" command:command];
-  NSString *to_filePath   = [command.arguments objectAtIndex:1];
-  BOOL bRet = [self crypto:@"decrypt" command:command];
+  // BOOL bRet = [self crypto:@"decrypt" command:command];
 
-  if (path != nil) {
-    pluginResult =
-        [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                          messageAsString:to_filePath];
-  } else {
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-  }
+  CDVPluginResult *pluginResult = [self crypto:@"decrypt" command:command];
 
   [self.commandDelegate sendPluginResult:pluginResult
                               callbackId:command.callbackId];
@@ -59,11 +39,13 @@
  *  @param action  Cryptographic operation
  *  @param command Cordova arguments
  *
- *  @return Boolean value representing success or failure
+ *  @return CDVPluginResult *pluginResult value representing success or failure
  */
-- (BOOL) crypto:(NSString *)action command:(CDVInvokedUrlCommand *)command {
+- (CDVPluginResult *) crypto:(NSString *)action command:(CDVInvokedUrlCommand *)command {
 
   BOOL bRet = FALSE;
+  CDVPluginResult *pluginResult = nil;
+
   NSString *from_filePath = [command.arguments objectAtIndex:0];
   NSString *to_filePath   = [command.arguments objectAtIndex:1];
   NSString *key = [command.arguments objectAtIndex:2];
@@ -75,14 +57,14 @@
   NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
   NSString *srcPath = [documentsPath stringByAppendingPathComponent:fileName];
   NSLog( @"%@ from path: %@ to path: %@", action, from_filePath, to_filePath);
-  NSLog( @"from path: %@", path);
+  NSLog( @"from path: %@", srcPath);
   BOOL srcExists = [fileManager fileExistsAtPath:srcPath];
 
   NSString *sErrDesc = nil;
 
   // if path and password args exist
-  if (from_path != nil && [from_path length] > 0 && 
-      to_path != nil && [to_path length] > 0 && 
+  if (from_filePath != nil && [from_filePath length] > 0 &&
+      to_filePath != nil && [to_filePath length] > 0 && 
       key != nil && [key length] > 0 && 
       iv != nil && [iv length] > 0) {
 
@@ -95,8 +77,11 @@
         if( aesEncryptFile( from_filePath, to_filePath, key, iv, &sErrDesc )) {
             NSLog( @"%@ encrypt to %@ success!", from_filePath, to_filePath );
             bRet = true;
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                              messageAsString:to_filePath];
         } else {
             NSLog( @"Encrypt Error: %@", sErrDesc);
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
         }
 
       } else {
@@ -104,8 +89,11 @@
         if( aesDecryptFile( from_filePath, to_filePath, key, iv, &sErrDesc )) {
             NSLog( @"%@ decrypt to %@ success!", from_filePath, to_filePath );
             bRet = true;
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
+                              messageAsString:to_filePath];
         } else {
             NSLog( @"Decrypt Error: %@", sErrDesc);
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
         }
 
       }
@@ -134,7 +122,7 @@
     }
   }
 
-  return bRet;
+  return pluginResult;
 }
 
 @end

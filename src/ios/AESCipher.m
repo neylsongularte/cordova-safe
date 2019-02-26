@@ -220,11 +220,10 @@ BOOL aesEncryptFileData( CCOperation operation, // kCC Encrypt, Decrypt
         return false;
     }
     
-    
     // 讀檔迴圈
-	uint64 offset = 0;
-	uint64 offset_to = 0;
-	uint32 chunkSize = C_CHUNK_SIZE;     //Read 4KB chunks.
+    UInt64 offset = 0;
+	UInt64 offset_to = 0;
+	UInt32 chunkSize = C_CHUNK_SIZE;     //Read 4KB chunks.
 
 	NSData *dataIn = [fh_from readDataOfLength:chunkSize];
     NSMutableData *dataOut = nil;

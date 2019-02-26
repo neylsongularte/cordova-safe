@@ -8,5 +8,5 @@
 
 - (void)encrypt:(CDVInvokedUrlCommand*)command;
 - (void)decrypt:(CDVInvokedUrlCommand*)command;
-- (BOOL)crypto:(NSString*)action command:(CDVInvokedUrlCommand*)command;
+- (CDVPluginResult *)crypto:(NSString*)action command:(CDVInvokedUrlCommand*)command;
 @end
