@@ -35,8 +35,8 @@ class AES_Encryptor {
    int readBytes = in.read(buf);
    while(readBytes > 0){
 
-    // byte[] cipherBytes = cipher.update(buf, 0 , readBytes);
-       byte[] cipherBytes = cipher.doFinal(buf, 0, readBytes);
+       byte[] cipherBytes = cipher.update(buf, 0 , readBytes);
+       // byte[] cipherBytes = cipher.doFinal(buf, 0, readBytes);
        out.write(cipherBytes);
        readBytes = in.read(buf);
    }
@@ -60,8 +60,8 @@ class AES_Encryptor {
     OutputStream out = new FileOutputStream(decryptedFile);){
    int readBytes = in.read(buf);
    while(readBytes > 0){
-    // byte[] decryptedBytes = cipher.update(buf, 0 , readBytes);
-    byte[] decryptedBytes = cipher.doFinal(buf, 0 , readBytes);
+    byte[] decryptedBytes = cipher.update(buf, 0 , readBytes);
+    // byte[] decryptedBytes = cipher.doFinal(buf, 0 , readBytes);
     out.write(decryptedBytes);
     readBytes = in.read(buf);
    }

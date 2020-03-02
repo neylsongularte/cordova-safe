@@ -42,8 +42,8 @@ public class Safe extends CordovaPlugin {
 
       String path = args.getString(0);  // src file
       String dst_path = args.getString(1);  // dst file
-      String key = args.getString(2);
-      String iv = args.getString(3);
+      byte[] bkey = hexToBytes(args.getString(2));
+      byte[] biv = hexToBytes(args.getString(3));
 
       // Uri normalizedPath = resourceApi.remapUri(Uri.parse(path));
       // Uri normalizedDstPath = resourceApi.remapUri(Uri.parse(dst_path));
@@ -51,13 +51,12 @@ public class Safe extends CordovaPlugin {
       // this.cryptOp(normalizedPath.toString(), pass, action, callbackContext);
 
       try {
-        SecretKey skey = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
-        byte[] biv = iv.getBytes("UTF-8");
+        SecretKey skey = new SecretKeySpec(bkey, "AES");
 
         if (action.equals(ENCRYPT_ACTION)) {
           AES_Encryptor.Encrypt( skey, biv, new File( path ), new File( dst_path ));
 		  callbackContext.success(dst_path);
-		
+
         } else if (action.equals(DECRYPT_ACTION)) {
           AES_Encryptor.Decrypt( skey, biv, new File( path ), new File( dst_path ));
 		  callbackContext.success(dst_path);
@@ -75,5 +74,18 @@ public class Safe extends CordovaPlugin {
 
     return false;
   }
+
+    public static byte[] hexToBytes(String hex) {
+        hex = hex.length() % 2 != 0 ? "0" + hex : hex;
+
+        byte[] b = new byte[hex.length() / 2];
+
+        for (int i = 0; i < b.length; i++) {
+            int index = i * 2;
+            int v = Integer.parseInt(hex.substring(index, index + 2), 16);
+            b[i] = (byte) v;
+        }
+        return b;
+    }
 
 }
