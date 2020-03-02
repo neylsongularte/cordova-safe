@@ -43,10 +43,6 @@ cordova.plugins.disusered.safe.encrypt(file, destination_file, hexKey, hexIv, su
 cordova.plugins.disusered.safe.decrypt(file, destination_file, hexKey, hexIv, success, error);
 ```
 
-## OpenSSL
-
-openssl enc -d -aes-[128|192|256]-ctr -nopad -in 1404177327783.jpg.enc -out 1404177327783.jpg -K 00000000000000000000000000000000 -iv 00000000000000000000000000000000
-
 #### Parameters:
 * __file:__ A string representing a local URI
 * __dst_file:__ A string representing a local URI ( destination file )
@@ -55,7 +51,11 @@ openssl enc -d -aes-[128|192|256]-ctr -nopad -in 1404177327783.jpg.enc -out 1404
 * __success:__ Optional success callback
 * __error:__ Optional error callback
 
-### Issues
+## OpenSSL
+
+openssl enc -d -aes-[128|192|256]-ctr -nopad -in 1404177327783.jpg.enc -out 1404177327783.jpg -K 00000000000000000000000000000000 -iv 00000000000000000000000000000000
+
+## Issues
 * fix for ios
 
 ## License
